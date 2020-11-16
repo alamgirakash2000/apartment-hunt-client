@@ -1,6 +1,6 @@
-import * as auth from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { auth } from "../../FirabaseConfig";
 import logo from "../../Logo.png";
 
 function Header({ user, setUser }) {
@@ -20,11 +20,11 @@ function Header({ user, setUser }) {
   }, []);
 
   const logout = () => {
-    auth()
+    auth
       .signOut()
       .then(() => {
         setUser({});
-        localStorage.removeItem("volunteer-network-user");
+        localStorage.removeItem("apartment-hunt");
       })
       .catch((error) => {
         alert(error.message);
@@ -33,7 +33,7 @@ function Header({ user, setUser }) {
 
   return (
     <div className={`position-sticky sticky-top w-100 ${bg && "bg-light"} `}>
-      <nav className="container navbar navbar-expand-lg">
+      <nav className="container navbar navbar-expand-lg header bg-light">
         <Link className="navbar-brand" to="/">
           <img src={logo} alt="" className="header__logo" />
         </Link>
@@ -65,6 +65,32 @@ function Header({ user, setUser }) {
             >
               My Orders
             </NavLink>
+
+            <NavLink
+              activeClassName="selected"
+              className="nav-link ml-3"
+              exact
+              to="/about"
+            >
+              About
+            </NavLink>
+            <NavLink
+              activeClassName="selected"
+              className="nav-link ml-3"
+              exact
+              to="/service"
+            >
+              Service
+            </NavLink>
+            <NavLink
+              activeClassName="selected"
+              className="nav-link ml-3"
+              exact
+              to="/contact"
+            >
+              Contact
+            </NavLink>
+
             <NavLink
               activeClassName="selected"
               className="nav-link ml-3"
@@ -73,18 +99,17 @@ function Header({ user, setUser }) {
               Dashboard
             </NavLink>
 
-            {user.email ? (
-              <button className="btn btn-danger ml-3" onClick={logout}>
-                LOGOUT
-              </button>
-            ) : (
-              <NavLink
-                className="nav-link btn btn-dark ml-3 px-3 text-light"
-                to="/login"
-              >
-                LOGIN
-              </NavLink>
-            )}
+            <div className="loginBtn">
+              {user && user.email ? (
+                <button className="btn ml-3" onClick={logout}>
+                  LOGOUT
+                </button>
+              ) : (
+                <NavLink className="nav-link btn ml-3 px-3 " to="/login">
+                  LOGIN
+                </NavLink>
+              )}
+            </div>
           </div>
         </div>
       </nav>
@@ -93,3 +118,64 @@ function Header({ user, setUser }) {
 }
 
 export default Header;
+
+//   <header className='header'>
+//   <div className="container">
+//     <div className="row">
+//       <div className="col-md-12">
+//         <nav className="navbar navbar-expand-lg">
+//           <Link className="navbar-brand" href="#">
+//             <img src={logo} alt="" className="img-fluid" />
+//           </Link>
+//           <button
+//             className="navbar-toggler"
+//             type="button"
+//             data-toggle="collapse"
+//             data-target="#navbarSupportedContent"
+//             aria-controls="navbarSupportedContent"
+//             aria-expanded="false"
+//             aria-label="Toggle navigation"
+//           >
+//             <span className="navbar-toggler-icon"></span>
+//           </button>
+
+//           <div
+//             className="collapse navbar-collapse"
+//             id="navbarSupportedContent"
+//           >
+//             <ul className="navbar-nav ml-auto">
+//               <li className="nav-item active">
+//                 <Link className="nav-link" href="#">
+//                   Home
+//                 </Link>
+//               </li>
+//               <li className="nav-item active">
+//                 <Link className="nav-link" href="#">
+//                   About
+//                 </Link>
+//               </li>
+//               <li className="nav-item active">
+//                 <Link className="nav-link" href="#">
+//                   Services
+//                 </Link>
+//               </li>
+//               <li className="nav-item active">
+//                 <Link className="nav-link" href="#">
+//                   Event
+//                 </Link>
+//               </li>
+//               <li className="nav-item active">
+//                 <Link className="nav-link" href="#">
+//                   Contact
+//                 </Link>
+//               </li>
+//               <li className="nav-item active">
+//                 <button className="btn button">Login</button>
+//               </li>
+//             </ul>
+//           </div>
+//         </nav>
+//       </div>
+//     </div>
+//   </div>
+// </header>
